@@ -27,13 +27,13 @@ EXAMPLE_DATA = [
 
 
 def read_data(file_path: str) -> list[str]:
-    with open(file_path, "r") as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         return [line.strip() for line in file]
 
 
-def parse_data(data: list[str]) -> list[list[int]]:
+def parse_data(input_data: list[str]) -> list[list[int]]:
     positions = []
-    for line in data:
+    for line in input_data:
         positions.append([int(item) for item in line.split(",")])
     return positions
 
@@ -64,8 +64,8 @@ def closest_points(
     index_point_2 = 1
     min_distance = euclidean_distance(points[0], points[1])
 
-    for index1, point1 in enumerate(points):
-        for index2, point2 in enumerate(points):
+    for index1, _ in enumerate(points):
+        for index2, _ in enumerate(points):
             if index1 <= index2:
                 continue
             temp_distance = distances[index1][index2]
@@ -81,11 +81,11 @@ def closest_points(
 
 def compute_all_distances(points: list[list[int]]) -> dict:
     distances = {}
-    for index1, point1 in enumerate(points):
-        for index2, point2 in enumerate(points):
+    for index1, _ in enumerate(points):
+        for index2, _ in enumerate(points):
             if index1 <= index2:
                 continue
-            temp_distance = euclidean_distance(point1, point2)
+            temp_distance = euclidean_distance(points[index1], points[index2])
             distances[(index1, index2)] = temp_distance
 
     return distances
@@ -98,7 +98,7 @@ def part1(positions: list[list[int]], number_pair: int = 10) -> int:
     # sort the distance
     distances = sorted(distances.items(), key=lambda x: x[1])
 
-    for (i, j), d in distances[:number_pair]:
+    for (i, j), _ in distances[:number_pair]:
         _id_i = -1
         _id_j = -1
 
@@ -125,6 +125,14 @@ def part1(positions: list[list[int]], number_pair: int = 10) -> int:
 
 
 def part2(positions: list[list[int]]) -> int:
+    """_summary_
+
+    Args:
+        positions (list[list[int]]): _description_
+
+    Returns:
+        int: _description_
+    """
     print(positions)
     connections: list[set] = []
     connected = set()
@@ -134,7 +142,7 @@ def part2(positions: list[list[int]]) -> int:
 
     print(distances)
 
-    for (i, j), d in distances:
+    for (i, j), _ in distances:
         _id_i = -1
         _id_j = -1
 
